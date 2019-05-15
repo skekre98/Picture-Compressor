@@ -19,4 +19,22 @@ def compression(img,n_colors):
     labels = kmeans.predict(img_arr)
     return kmeans,labels,w,h
 
+def reshape_image(img, labels, w, h):
+    # restructure image for plt.imshow()
+    output = np.zeros((w, h, 3))
+    index = 0
+    for i in range(w):
+        for j in range(h):
+            output[i][j] = img[labels[index]]
+            index += 1
+    return output
+
+def K_means(original_image,n_colors):
+    # perform k-means using n_colors centroids
+    kmeans,labels,w,h = compression(original_image,n_colors)
+    # restructure image for output
+    new_img = reshape_image(kmeans.cluster_centers_,labels,w,h)
+    # visualize original image against new image
+    visualize(original_image,new_img,n_colors)
+
 original_image = np.array(Image.open(sys.argv[1]))
