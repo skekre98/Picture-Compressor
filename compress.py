@@ -3,25 +3,10 @@ import copy
 import sys
 import math
 from PIL import Image
+from scipy.misc import imshow
 from sklearn.cluster import KMeans
 from sklearn.utils import shuffle
-import matplotlib.pyplot as plt
-
-def visualize(im1, im2):
-	# displays two images
-    im1 = im1.astype('uint8')
-    im2 = im2.astype('uint8')
-    f = plt.figure()
-    f.add_subplot(1,2, 1)
-    plt.imshow(im1)
-    plt.axis('off')
-    plt.title('Original')
-    f.add_subplot(1,2, 2)
-    plt.imshow(im2)
-    plt.axis('off')
-    plt.title('Compressed')
-    plt.show()
-    return None
+from matplotlib import pyplot as plt
 
 
 def compression(img,n_colors):
@@ -54,8 +39,36 @@ def K_means(original_image,n_colors):
     kmeans,labels,w,h = compression(original_image,n_colors)
     # restructure image for output
     new_img = reshape_image(kmeans.cluster_centers_,labels,w,h)
-    visualize(original_image,new_img)
+    # returns new image in form of numpy array
     return new_img
 
+# calculated compression rate given k
+def KMeans_rate(original, k):
+    # finds height and width of original image
+    ow, oh, od  = tuple(original.shape)
+    # calculated original size
+    original_size = 24 * ow * oh
+
+    # perform k-means using n_colors centroids
+    kmeans,labels,w,h = compression(original_image,k)
+    # calculated compressed size
+    compressed_size = (32 * 3 * k) + (h * w * math.log(k,2))
+
+    return ((original_size - compressed_size) / original_size) * 100
+
 original_image = np.array(Image.open(sys.argv[1]))
-compress_img = K_means(original_image,5)
+levels = {1: 200, 2: 100, 3: 50, 4:25, 5:5}
+l = int(input("What level of compression would you like? (1-5): "))
+
+n_im = K_means(original_image,levels[l])
+n_im = n_im.astype('uint8')
+img = Image.fromarray(n_im, 'RGB')
+img.save('compressed_image.png')
+img.show()
+
+
+# 5 ~ level 5(90%)
+# 25 ~ level 4(80%)
+# 50 ~ level 3(75%)
+# 100 ~ level 2(70%)
+# 200 ~ level 1(67%)
