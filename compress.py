@@ -42,7 +42,7 @@ def K_means(original_image,n_colors):
     # returns new image in form of numpy array
     return new_img
 
-# calculated compression rate given k
+# calculated compression rate given k for testing purposes
 def KMeans_rate(original, k):
     # finds height and width of original image
     ow, oh, od  = tuple(original.shape)
