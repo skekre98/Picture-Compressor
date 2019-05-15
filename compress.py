@@ -65,8 +65,8 @@ l = int(input("What level of compression would you like? (1-5): "))
 n_im = K_means(original_image,levels[l])
 n_im = n_im.astype('uint8')
 img = Image.fromarray(n_im, 'RGB')
-img.save('compressed_image.png')
-img.show()
+name = image_name + "_compress.png"
+img.save(name)
 
 
 # 5 ~ level 5(90%)
