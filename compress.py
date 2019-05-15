@@ -57,6 +57,8 @@ def KMeans_rate(original, k):
     return ((original_size - compressed_size) / original_size) * 100
 
 original_image = np.array(Image.open(sys.argv[1]))
+temp = str(sys.argv[1])
+image_name = temp.split('.')[0]
 levels = {1: 200, 2: 100, 3: 50, 4:25, 5:5}
 l = int(input("What level of compression would you like? (1-5): "))
 
