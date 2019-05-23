@@ -12,6 +12,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Dependencies
 
-
+* [NumPy](https://www.numpy.org) - package for scientific computing with Python
+* [Pillow](https://pillow.readthedocs.io/en/stable/) - Python Imaging Library
+* [scikit-learn](https://scikit-learn.org/stable/) - machine learning library for the Python 
 
 
